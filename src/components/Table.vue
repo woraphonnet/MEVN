@@ -1,34 +1,90 @@
 <template>
   <div>
-    <b-table :fields="fields" :items="items" >
-    
+    <b-button variant="primary" @click="PushCreate()">Create</b-button>
+    <b-table :fields="fields" :items="Data">
+      <template v-slot:cell(action)="data">
+        <b-button variant="warning" @click="PushUpdate(data.item._id)">Update</b-button>
+        <b-button variant="danger" @click="DeleteAction(data.item._id)">Delete</b-button>
+      </template>
     </b-table>
   </div>
 </template>
 
 <script>
+  import {
+    mapActions,
+    mapGetters
+  } from 'vuex'
   export default {
     data() {
       return {
-        fields: [
+        fields: [{
+            key: 'firstname',
+            label: 'Firstname',
+          },
           {
-            key: 'name',
-            label: 'Full Name',
-            formatter: 'fullName'
+            key: 'lastname',
+            label: 'Lastname',
+          },
+          {
+            key: 'birthday',
+            label: 'Birthday',
+          },
+          {
+            key: 'age',
+            label: 'Age',
+          },
+          {
+            key: 'action',
+            label: 'Action',
           },
         ],
-        items: [
-          { name: { first: 'John', last: 'Doe' }, sex: 'Male', age: 42 },
-          { name: { first: 'Jane', last: 'Doe' }, sex: 'Female', age: 36 },
-          { name: { first: 'Rubin', last: 'Kincade' }, sex: 'male', age: 73 },
-          { name: { first: 'Shirley', last: 'Partridge' }, sex: 'female', age: 62 }
-        ]
       }
     },
+    mounted() {
+      this.init();
+    },
     methods: {
-      fullName(value) {
-        return `${value.first} ${value.last}`
+      ...mapActions('employee_store', ['init', "Update", 'Delete']),
+      UpdateAction() {
+
+      },
+      DeleteAction(id) {
+        this.Delete(id).then(() => {
+          this.$swal.fire(
+            'Delete',
+            'success',
+            'success'
+          )
+        })
+      },
+      PushCreate() {
+        this.$router.push({
+          name: 'Form',
+          params: {
+            id: '_',
+            action: 'create'
+          }
+        })
+      },
+      PushUpdate(id) {
+        this.$router.push({
+          name: 'Form',
+          params: {
+            id: id,
+            action: 'update'
+          }
+        })
       }
-    }
+    },
+    computed: {
+      // mix the getters into computed with object spread operator
+      ...mapGetters({
+        Data: 'employee_store/getData'
+      })
+    },
+    watch: {
+    
+    },
   }
 </script>

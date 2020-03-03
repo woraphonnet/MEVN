@@ -1,24 +1,20 @@
 <template>
   <div class="container">
-    <Header msg="CREATE EMPLOYEE"/>
-    <Table />
+    <Header msg="Saenruk EMPLOYEE" />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Table from './components/Table.vue'
-import Header from './components/Header.vue'
-
-export default {
-  name: 'App',
-  components: {
-    Table,
-    Header
+  import Header from './components/Header.vue'
+  export default {
+    name: 'App',
+    components: {
+      Header
+    }
   }
-}
 </script>
 
 <style>
-.container{
-}
+  .container {}
 </style>
