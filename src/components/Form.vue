@@ -97,6 +97,13 @@
                         this.obj.age = res[0].age
                     })
                 }
+            },
+            'obj.birthday'(val){
+                var dob = val;
+                dob = new Date(dob);
+                var today = new Date();
+                var age = Math.floor((today-dob)/ (365.25 * 24 * 60 * 60 * 1000));
+                this.obj.age = age
             }
         },
     }
